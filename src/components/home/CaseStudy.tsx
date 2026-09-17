@@ -30,11 +30,11 @@ export default function CaseStudy() {
     >
       <Box sx={{ position: "relative", minHeight: { xs: 250, md: "100%" } }}>
         <Image
-          src="/images/airport-kiosk.jpg"
-          alt="BeautyPod deployment at Hyderabad Airport"
+          src="/images/beautypod-machine.png"
+          alt="BeautyPOD machine at Hyderabad Airport"
           fill
           sizes="(max-width: 760px) 100vw, 40vw"
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: "contain", objectPosition: "center", backgroundColor: "#fff" }}
         />
       </Box>
       <Box sx={{ px: { xs: 2.75, md: 4.5 }, py: { xs: 4, md: 6.2 } }}>

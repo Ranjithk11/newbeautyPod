@@ -11,7 +11,7 @@ export default function Hero() {
         maxWidth: 1240,
         mx: "auto",
         display: "grid",
-        gridTemplateColumns: { xs: "1fr", md: "44% 56%" },
+        gridTemplateColumns: { xs: "1fr", md: "42% 58%" },
         bgcolor: "#f6f4e9",
         overflow: "hidden",
       }}

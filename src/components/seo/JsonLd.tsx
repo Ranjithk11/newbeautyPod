@@ -9,7 +9,7 @@ export default function JsonLd() {
         name: "Leaf Water",
         alternateName: "BeautyPod",
         url: site.url,
-        logo: `${site.url}/images/logo.svg`,
+        logo: `${site.url}/images/logo.jpg`,
         description: site.description,
       },
       {

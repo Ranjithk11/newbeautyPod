@@ -6,17 +6,22 @@ type LogoProps = {
   priority?: boolean;
 };
 
-export default function Logo({ width = 178, priority = false }: LogoProps) {
-  const height = Math.round((width * 72) / 320);
+export default function Logo({ width = 280, priority = false }: LogoProps) {
+  const height = Math.round((width * 403) / 1024);
 
   return (
     <Image
-      src="/images/logo.svg"
+      src="/images/logo.jpg"
       alt={site.brand}
       width={width}
       height={height}
       priority={priority}
-      style={{ display: "block", width, height: "auto" }}
+      style={{
+        display: "block",
+        width: "100%",
+        height: "auto",
+        objectFit: "contain",
+      }}
     />
   );
 }

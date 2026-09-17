@@ -26,7 +26,7 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
       slotProps={{
         paper: {
           sx: {
-            top: { xs: 66, md: 76 },
+            top: { xs: 88, md: 118 },
             boxShadow: "0 15px 30px rgba(0,0,0,.12)",
           },
         },

@@ -35,6 +35,16 @@ export const metadata: Metadata = {
     url: site.url,
     siteName: site.brand,
     type: "website",
+    images: [
+      {
+        url: "/images/beautypod-machine.png",
+        alt: "BeautyPOD AI skincare vending machine",
+      },
+      {
+        url: "/images/logo.jpg",
+        alt: "BeautyPOD logo powered by Leafwater",
+      },
+    ],
   },
   robots: { index: true, follow: true },
 };
