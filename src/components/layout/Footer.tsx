@@ -1,12 +1,12 @@
+import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { createElement } from "react";
-import { site } from "@/lib/content";
+import { site, socialLinks } from "@/lib/content";
 import { colors } from "@/theme/colors";
 import Logo from "@/components/ui/Logo";
 import NewsletterForm from "@/components/forms/NewsletterForm";
@@ -14,7 +14,7 @@ import NewsletterForm from "@/components/forms/NewsletterForm";
 const quickLinks = [
   { label: "For Retailers", href: "/#retailers" },
   { label: "For Brands", href: "/#brands" },
-  { label: "Locations", href: "/#locations" },
+  { label: "Brands", href: "/#brand-partners" },
   { label: "Case Studies", href: "/#case-studies" },
 ];
 
@@ -25,15 +25,23 @@ const aboutLinks = [
   { label: "Contact", href: `mailto:${site.email}` },
 ];
 
-const socials = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/", icon: LinkedInIcon },
-  { label: "Instagram", href: "https://www.instagram.com/", icon: InstagramIcon },
-  { label: "YouTube", href: "https://www.youtube.com/", icon: YouTubeIcon },
-];
+const socialIcons = {
+  Instagram: InstagramIcon,
+  YouTube: YouTubeIcon,
+  Facebook: FacebookIcon,
+} as const;
 
 export default function Footer() {
   return (
-    <Box component="footer" sx={{ bgcolor: "#fff" }}>
+    <Box
+      component="footer"
+      sx={{
+        bgcolor: colors.footer,
+        color: "rgba(255,255,255,0.86)",
+        backgroundImage:
+          "radial-gradient(circle at 12% 0%, rgba(196,163,90,0.16), transparent 34%), radial-gradient(circle at 90% 100%, rgba(8,127,91,0.28), transparent 40%)",
+      }}
+    >
       <Box
         sx={{
           maxWidth: 1240,
@@ -49,47 +57,47 @@ export default function Footer() {
         }}
       >
         <Box sx={{ gridColumn: { xs: "1 / -1", lg: "auto" } }}>
-          <Box sx={{ width: 200, lineHeight: 0 }}>
+          <Box sx={{ width: 200, lineHeight: 0, bgcolor: "#fff", borderRadius: 1.5, p: 1 }}>
             <Logo width={200} />
           </Box>
-          <Typography sx={{ color: "text.secondary", fontSize: 13, mt: 1 }}>
+          <Typography sx={{ color: "rgba(255,255,255,0.72)", fontSize: 13, mt: 1.5 }}>
             {site.tagline}
           </Typography>
         </Box>
         <Box>
-          <Typography variant="h4" component="h4" sx={{ mb: 1.5 }}>
+          <Typography variant="h4" component="h4" sx={{ mb: 1.5, color: "#fff" }}>
             Quick Links
           </Typography>
           {quickLinks.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              sx={{ display: "block", fontSize: 12, color: "#52635e", my: 1 }}
+              sx={{ display: "block", fontSize: 12, color: "rgba(255,255,255,0.74)", my: 1 }}
             >
               {item.label}
             </Link>
           ))}
         </Box>
         <Box>
-          <Typography variant="h4" component="h4" sx={{ mb: 1.5 }}>
+          <Typography variant="h4" component="h4" sx={{ mb: 1.5, color: "#fff" }}>
             About
           </Typography>
           {aboutLinks.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              sx={{ display: "block", fontSize: 12, color: "#52635e", my: 1 }}
+              sx={{ display: "block", fontSize: 12, color: "rgba(255,255,255,0.74)", my: 1 }}
             >
               {item.label}
             </Link>
           ))}
         </Box>
         <Box>
-          <Typography variant="h4" component="h4" sx={{ mb: 1.5 }}>
+          <Typography variant="h4" component="h4" sx={{ mb: 1.5, color: "#fff" }}>
             Follow Us
           </Typography>
           <Box sx={{ display: "flex", gap: 1.2 }}>
-            {socials.map((social) => (
+            {socialLinks.map((social) => (
               <IconButton
                 key={social.label}
                 href={social.href}
@@ -99,23 +107,23 @@ export default function Footer() {
                 sx={{
                   width: 30,
                   height: 30,
-                  border: "1px solid #d5dfda",
-                  color: colors.text,
+                  border: "1px solid rgba(255,255,255,0.22)",
+                  color: "#fff",
                   transition: "transform 0.2s ease, background-color 0.2s ease, color 0.2s ease",
                   "&:hover": {
                     transform: "translateY(-2px)",
-                    color: colors.green,
-                    bgcolor: "rgba(8,127,91,0.08)",
+                    color: colors.goldSoft,
+                    bgcolor: "rgba(255,255,255,0.08)",
                   },
                 }}
               >
-                {createElement(social.icon, { sx: { fontSize: 16 } })}
+                {createElement(socialIcons[social.label], { sx: { fontSize: 16 } })}
               </IconButton>
             ))}
           </Box>
         </Box>
         <Box>
-          <Typography variant="h4" component="h4" sx={{ mb: 1.5 }}>
+          <Typography variant="h4" component="h4" sx={{ mb: 1.5, color: "#fff" }}>
             Stay Updated
           </Typography>
           <NewsletterForm />
@@ -123,7 +131,7 @@ export default function Footer() {
       </Box>
       <Box
         sx={{
-          borderTop: "1px solid #e3e9e6",
+          borderTop: "1px solid rgba(255,255,255,0.12)",
           maxWidth: 1240,
           mx: "auto",
           px: { xs: 2.5, md: 3 },
@@ -132,7 +140,7 @@ export default function Footer() {
           justifyContent: "space-between",
           flexDirection: { xs: "column", md: "row" },
           gap: 1,
-          color: "#71807b",
+          color: "rgba(255,255,255,0.62)",
           fontSize: 11,
         }}
       >

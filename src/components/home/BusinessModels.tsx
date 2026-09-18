@@ -12,7 +12,7 @@ export default function BusinessModels() {
       sx={{
         py: { xs: 5.2, md: 6 },
         px: { xs: 2.2, md: 3 },
-        bgcolor: "#fff",
+        background: "linear-gradient(180deg, #f7f4e8 0%, #eef6f1 100%)",
       }}
     >
       <Box sx={{ maxWidth: 1240, mx: "auto" }}>

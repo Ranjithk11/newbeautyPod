@@ -10,22 +10,22 @@ export default function HeroVisual() {
     <Box
       sx={{
         position: "relative",
-        minHeight: { xs: 380, md: 620 },
+        minHeight: { xs: 340, sm: 420, md: "100%" },
+        height: { xs: "min(68vw, 460px)", md: "auto" },
         overflow: "hidden",
-        bgcolor: "#f3f6f2",
         animation: "bpFadeIn 0.9s ease both",
       }}
     >
       <Box
         sx={{
           position: "absolute",
-          width: { xs: "70%", md: "58%" },
-          height: { xs: "58%", md: "52%" },
+          width: { xs: "78%", md: "62%" },
+          height: { xs: "62%", md: "54%" },
           left: "50%",
           top: "46%",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(8,127,91,0.22) 0%, rgba(246,244,233,0) 72%)",
+            "radial-gradient(circle, rgba(8,127,91,0.26) 0%, rgba(246,244,233,0) 72%)",
           animation: "bpGlow 4.8s ease-in-out infinite",
           pointerEvents: "none",
         }}
@@ -33,7 +33,7 @@ export default function HeroVisual() {
       <Box
         sx={{
           position: "absolute",
-          inset: 0,
+          inset: { xs: "8% 4% 18% 4%", md: "4% 6% 10% 4%" },
           animation: "bpFloat 5.4s ease-in-out infinite",
         }}
       >
@@ -42,8 +42,8 @@ export default function HeroVisual() {
           alt="BeautyPOD AI skincare vending machine by Leaf Water"
           fill
           priority
-          sizes="(max-width: 760px) 100vw, 56vw"
-          style={{ objectFit: "contain", objectPosition: "center" }}
+          sizes="(max-width: 760px) 100vw, 58vw"
+          style={{ objectFit: "contain", objectPosition: "center bottom" }}
         />
       </Box>
       <Box
@@ -52,11 +52,12 @@ export default function HeroVisual() {
           right: 0,
           bottom: 0,
           zIndex: 3,
-          bgcolor: colors.cream,
-          borderTopLeftRadius: 90,
+          bgcolor: "rgba(246,244,233,0.94)",
+          backdropFilter: "blur(10px)",
+          borderTopLeftRadius: { xs: 48, md: 90 },
           px: { xs: 2.2, md: 3.8 },
-          pt: { xs: 2.8, md: 4.2 },
-          pb: { xs: 2.2, md: 3 },
+          pt: { xs: 2.2, md: 4.2 },
+          pb: { xs: 1.8, md: 3 },
           animation: "bpFadeUp 0.9s ease 0.2s both",
         }}
       >
@@ -64,7 +65,7 @@ export default function HeroVisual() {
           sx={{
             fontFamily: 'var(--font-playfair), Georgia, serif',
             fontWeight: 800,
-            fontSize: { xs: 18, md: 24 },
+            fontSize: { xs: 16, md: 24 },
             lineHeight: 1.05,
             color: colors.dark,
           }}

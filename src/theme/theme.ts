@@ -20,7 +20,7 @@ const theme = createTheme({
       secondary: colors.muted,
     },
     background: {
-      default: colors.white,
+      default: colors.page,
       paper: colors.white,
     },
     divider: colors.border,
@@ -84,7 +84,7 @@ const theme = createTheme({
           scrollBehavior: "smooth",
         },
         body: {
-          backgroundColor: colors.white,
+          backgroundColor: colors.page,
           color: colors.text,
         },
         a: {

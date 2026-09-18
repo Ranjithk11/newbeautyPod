@@ -72,6 +72,20 @@ export function validateLeadForm(values: LeadFormValues): FieldErrors {
   return errors;
 }
 
+export type BrochureFormValues = {
+  email: string;
+  phone: string;
+};
+
+export function validateBrochureForm(values: BrochureFormValues): Partial<BrochureFormValues> {
+  const errors: Partial<BrochureFormValues> = {};
+  const emailError = validateEmail(values.email);
+  if (emailError) errors.email = emailError;
+  const phoneError = validatePhone(values.phone);
+  if (phoneError) errors.phone = phoneError;
+  return errors;
+}
+
 export const emptyLeadForm = (): LeadFormValues => ({
   name: "",
   company: "",

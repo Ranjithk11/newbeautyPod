@@ -12,12 +12,13 @@ export default function HowItWorks() {
       component="section"
       id="how-it-works"
       sx={{
-        py: { xs: 5.2, md: 6 },
+        py: { xs: 5.2, md: 6.5 },
         px: { xs: 2.2, md: 3 },
-        maxWidth: 1240,
-        mx: "auto",
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(238,246,241,0.9) 100%)",
       }}
     >
+      <Box sx={{ maxWidth: 1240, mx: "auto" }}>
       <Box id="products">
         <SectionHeading
           title="How BeautyPod Works"
@@ -49,6 +50,7 @@ export default function HowItWorks() {
             ) : null}
           </Fragment>
         ))}
+      </Box>
       </Box>
     </Box>
   );

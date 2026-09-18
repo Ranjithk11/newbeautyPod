@@ -20,8 +20,7 @@ export default function CaseStudy() {
       component="section"
       id="case-studies"
       sx={{
-        maxWidth: 1240,
-        mx: "auto",
+        width: "100%",
         display: "grid",
         gridTemplateColumns: { xs: "1fr", md: "1fr 1fr", lg: "1.15fr 1fr .8fr" },
         minHeight: { md: 360 },

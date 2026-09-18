@@ -3,18 +3,91 @@ export const site = {
   brand: "BeautyPod by Leaf Water",
   tagline: "AI Skincare. Smarter Retail. Brighter Futures.",
   url: "https://beautypod.shop",
-  email: "hello@beautypod.in",
+  email: "reachleafwater@gmail.com",
+  phoneDisplay: "+91 89770 16605",
+  whatsappNumber: "918977016605",
+  calendlyUrl: "https://calendly.com/reachleafwater/30min",
+  instagramHandle: "@leafwater.skincare",
   description:
     "BeautyPod by Leaf Water is an AI-powered smart skincare retail solution that combines AI skin analysis, personalised recommendations and automated product retail. Designed for high-footfall environments such as airports, malls, hotels and retail stores, BeautyPod enables customers to discover and purchase skincare through an interactive technology-driven experience.",
 };
+
+export const socialLinks = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/leafwater.skincare/?igsh=MTViMm9qY25tZHRhZQ%3D%3D#",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@leafwaterskincare",
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/people/LEAF-WATER/61564112849210/",
+  },
+] as const;
+
+export const brandPartners = [
+  { name: "Kaya", logo: "/brands/kaya.png" },
+  { name: "L'Oréal", logo: "/brands/loreal.png" },
+  { name: "Lotus", logo: "/brands/lotus.png" },
+  { name: "Vini", logo: "/brands/vini.png" },
+  { name: "Unicharm", logo: "/brands/unicharm.png" },
+  { name: "SkinSider", logo: "/brands/skin_sider.png" },
+] as const;
+
+export const reviews = [
+  {
+    name: "P Renuka",
+    role: "Leaf Water guest",
+    quote:
+      "Visited the store for my skin problems and Leaf Water recommended the best products for my skin. Must visit.",
+  },
+  {
+    name: "Shabaz Khan",
+    role: "Leaf Water guest",
+    quote:
+      "Best skincare products brand. I am observing good results on my skin. Thank you Leaf Water. Must recommend.",
+  },
+  {
+    name: "Pranav",
+    role: "Hydra facial guest",
+    quote:
+      "I had a very good experience for hydra facial. Aisha was an expert and very polite. I recommend Leaf Water.",
+  },
+  {
+    name: "Sarah J.",
+    role: "Leaf Water guest",
+    quote:
+      "Their products transformed my skin routine completely. Highly recommended for sensitive skin.",
+  },
+  {
+    name: "Michael T.",
+    role: "Leaf Water guest",
+    quote:
+      "The personalised skincare routine they suggested worked wonders for my acne-prone skin.",
+  },
+  {
+    name: "Airport Partner",
+    role: "Hyderabad Airport",
+    quote:
+      "BeautyPod has created a unique and memorable experience for our passengers. It's innovative, engaging and perfectly suited for today's travellers.",
+  },
+  {
+    name: "BeautyPod guest",
+    role: "RGI Airport",
+    quote:
+      "Bringing personalised skincare to millions of travellers. A quick scan, the right products, and real confidence on the go.",
+  },
+] as const;
 
 export const navLinks = [
   { label: "Home", href: "/#home" },
   { label: "For Retailers", href: "/#retailers" },
   { label: "For Brands", href: "/#brands" },
+  { label: "Brands", href: "/#brand-partners" },
   { label: "Locations", href: "/#locations" },
   { label: "How It Works", href: "/#how-it-works" },
-  { label: "Products", href: "/#products" },
   { label: "Case Studies", href: "/#case-studies" },
   { label: "FAQ", href: "/#faq" },
 ] as const;

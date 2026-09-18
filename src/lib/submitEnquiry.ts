@@ -1,5 +1,5 @@
 export type EnquiryPayload = {
-  formType: "demo" | "newsletter";
+  formType: "demo" | "newsletter" | "brochure" | "calendly";
   [key: string]: string | string[] | undefined;
 };
 

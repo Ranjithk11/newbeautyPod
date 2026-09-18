@@ -11,10 +11,27 @@ body {
 body {
   min-height: 100%;
   margin: 0;
-  background: #fff;
   color: #102c27;
   font-family: var(--font-plus-jakarta), "Plus Jakarta Sans", Arial, sans-serif;
+  background-color: #e9f3ee;
+  background-image:
+    radial-gradient(circle at 12% -8%, rgba(8, 127, 91, 0.22), transparent 42%),
+    radial-gradient(circle at 92% 8%, rgba(196, 163, 90, 0.2), transparent 36%),
+    radial-gradient(circle at 50% 120%, rgba(13, 68, 54, 0.12), transparent 42%),
+    linear-gradient(180deg, #e7f4ee 0%, #f7f4e8 38%, #eaf4ee 72%, #f4efe0 100%);
+  background-attachment: fixed;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.28;
+  background-image: url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M36 10c6 8 8 16 6 24-8-4-16-4-24 0 2-10 8-18 18-24z' fill='%23087f5b' fill-opacity='0.09'/%3E%3C/g%3E%3C/svg%3E");
+}
+
 
 * {
   box-sizing: border-box;
@@ -88,6 +105,27 @@ img {
   }
   100% {
     transform: translateX(130%);
+  }
+}
+
+@keyframes bpMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes bpWhatsApp {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 22px rgba(37, 211, 102, 0.35);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 12px 28px rgba(37, 211, 102, 0.5);
   }
 }
 

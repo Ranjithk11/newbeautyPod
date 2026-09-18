@@ -4,7 +4,6 @@ import { FormEvent, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -30,10 +29,17 @@ import {
   type FieldErrors,
   type LeadFormValues,
 } from "@/lib/validation";
+import { colors } from "@/theme/colors";
 import FormTextField from "./FormTextField";
 
+export type LeadSuccessDetails = {
+  name: string;
+  email: string;
+  phone: string;
+};
+
 type LeadCaptureFormProps = {
-  onSuccess?: () => void;
+  onSuccess?: (details: LeadSuccessDetails) => void;
 };
 
 export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
@@ -86,8 +92,7 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
 
     setSubmitting(true);
     try {
-      await submitEnquiry({
-        formType: "demo",
+      const details = {
         name: values.name.trim(),
         company: values.company.trim(),
         designation: values.designation.trim(),
@@ -96,9 +101,13 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
         interests: values.interests,
         locations: values.locations,
         timeline: values.timeline,
+      };
+      await submitEnquiry({
+        formType: "demo",
+        ...details,
       });
       setValues(emptyLeadForm());
-      onSuccess?.();
+      onSuccess?.({ name: details.name, email: details.email, phone: details.phone });
     } catch {
       setSubmitError("Could not send your details. Please try again.");
     } finally {
@@ -109,93 +118,113 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
   return (
     <Box component="form" onSubmit={onSubmit} noValidate>
       <Stack spacing={2}>
-        <FormTextField
-          label="Name"
-          name="name"
-          placeholder="Enter your name"
-          value={values.name}
-          onChange={(event) => setField("name", event.target.value)}
-          error={Boolean(errors.name)}
-          helperText={errors.name}
-          required
-          autoComplete="name"
-        />
-        <FormTextField
-          label="Company"
-          name="company"
-          placeholder="Enter your company"
-          value={values.company}
-          onChange={(event) => setField("company", event.target.value)}
-          error={Boolean(errors.company)}
-          helperText={errors.company}
-          required
-          autoComplete="organization"
-        />
-        <FormTextField
-          label="Designation"
-          name="designation"
-          placeholder="Enter your designation"
-          value={values.designation}
-          onChange={(event) => setField("designation", event.target.value)}
-          error={Boolean(errors.designation)}
-          helperText={errors.designation}
-          required
-          autoComplete="organization-title"
-        />
-        <FormTextField
-          label="Phone"
-          name="phone"
-          type="tel"
-          placeholder="Enter your phone number"
-          value={values.phone}
-          onChange={(event) => onPhoneChange(event.target.value)}
-          error={Boolean(errors.phone)}
-          helperText={errors.phone}
-          required
-          autoComplete="tel"
-          slotProps={{ htmlInput: { inputMode: "numeric", maxLength: 18 } }}
-        />
-        <FormTextField
-          label="Email"
-          name="email"
-          type="email"
-          placeholder="Enter your email"
-          value={values.email}
-          onChange={(event) => setField("email", event.target.value)}
-          error={Boolean(errors.email)}
-          helperText={errors.email}
-          required
-          autoComplete="email"
-        />
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            gap: 1.75,
+          }}
+        >
+          <FormTextField
+            label="Name"
+            name="name"
+            placeholder="Enter your name"
+            value={values.name}
+            onChange={(event) => setField("name", event.target.value)}
+            error={Boolean(errors.name)}
+            helperText={errors.name}
+            required
+            autoComplete="name"
+          />
+          <FormTextField
+            label="Company"
+            name="company"
+            placeholder="Enter your company"
+            value={values.company}
+            onChange={(event) => setField("company", event.target.value)}
+            error={Boolean(errors.company)}
+            helperText={errors.company}
+            required
+            autoComplete="organization"
+          />
+          <FormTextField
+            label="Designation"
+            name="designation"
+            placeholder="Enter your designation"
+            value={values.designation}
+            onChange={(event) => setField("designation", event.target.value)}
+            error={Boolean(errors.designation)}
+            helperText={errors.designation}
+            required
+            autoComplete="organization-title"
+          />
+          <FormTextField
+            label="Phone"
+            name="phone"
+            type="tel"
+            placeholder="Enter your phone number"
+            value={values.phone}
+            onChange={(event) => onPhoneChange(event.target.value)}
+            error={Boolean(errors.phone)}
+            helperText={errors.phone}
+            required
+            autoComplete="tel"
+            slotProps={{ htmlInput: { inputMode: "numeric", maxLength: 18 } }}
+          />
+          <Box sx={{ gridColumn: { sm: "1 / -1" } }}>
+            <FormTextField
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              value={values.email}
+              onChange={(event) => setField("email", event.target.value)}
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              required
+              autoComplete="email"
+            />
+          </Box>
+        </Box>
 
         <FormControl error={Boolean(errors.interests)} component="fieldset">
-          <FormLabel component="legend">Interested in</FormLabel>
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-              mt: 0.5,
-            }}
-          >
-            {interestOptions.map((option) => (
-              <FormControlLabel
-                key={option}
-                control={
-                  <Checkbox
-                    checked={values.interests.includes(option)}
-                    onChange={() => toggleInterest(option)}
-                    name="interests"
-                  />
-                }
-                label={option}
-              />
-            ))}
+          <FormLabel component="legend" sx={{ fontWeight: 700, fontSize: 13, mb: 1, color: colors.text }}>
+            Interested in
+          </FormLabel>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+            {interestOptions.map((option) => {
+              const selected = values.interests.includes(option);
+              return (
+                <Box
+                  key={option}
+                  component="button"
+                  type="button"
+                  onClick={() => toggleInterest(option)}
+                  sx={{
+                    border: selected ? `1px solid ${colors.green}` : `1px solid ${colors.border}`,
+                    bgcolor: selected ? "rgba(8,127,91,0.12)" : "#fff",
+                    color: colors.dark,
+                    borderRadius: "999px",
+                    px: 1.4,
+                    py: 0.7,
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  {option}
+                </Box>
+              );
+            })}
           </Box>
           {errors.interests ? <FormHelperText>{errors.interests}</FormHelperText> : null}
         </FormControl>
 
         <FormControl error={Boolean(errors.locations)}>
-          <FormLabel id="locations-label">Number of locations</FormLabel>
+          <FormLabel id="locations-label" sx={{ fontWeight: 700, fontSize: 13, color: colors.text }}>
+            Number of locations
+          </FormLabel>
           <RadioGroup
             aria-labelledby="locations-label"
             name="locations"
@@ -207,7 +236,7 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
               <FormControlLabel
                 key={option}
                 value={option}
-                control={<Radio />}
+                control={<Radio size="small" />}
                 label={option}
               />
             ))}
@@ -216,18 +245,21 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
         </FormControl>
 
         <FormControl error={Boolean(errors.timeline)}>
-          <FormLabel id="timeline-label">Expected timeline</FormLabel>
+          <FormLabel id="timeline-label" sx={{ fontWeight: 700, fontSize: 13, color: colors.text }}>
+            Expected timeline
+          </FormLabel>
           <RadioGroup
             aria-labelledby="timeline-label"
             name="timeline"
             value={values.timeline}
             onChange={(event) => setField("timeline", event.target.value)}
+            row
           >
             {timelineOptions.map((option) => (
               <FormControlLabel
                 key={option}
                 value={option}
-                control={<Radio />}
+                control={<Radio size="small" />}
                 label={option}
               />
             ))}
@@ -243,8 +275,9 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
           size="large"
           disabled={submitting}
           startIcon={submitting ? <CircularProgress size={16} color="inherit" /> : null}
+          sx={{ py: 1.4, fontSize: 15, letterSpacing: 0.2 }}
         >
-          {submitting ? "Sending..." : "Submit Enquiry"}
+          {submitting ? "Sending..." : "Continue to schedule"}
         </Button>
       </Stack>
 

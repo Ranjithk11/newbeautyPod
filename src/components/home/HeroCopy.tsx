@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { colors } from "@/theme/colors";
 import { useDemoDialog } from "@/components/providers/DemoDialogProvider";
 import HeroFeatures from "./HeroFeatures";
 
@@ -15,10 +14,9 @@ export default function HeroCopy() {
   return (
     <Box
       sx={{
-        bgcolor: colors.cream,
-        px: { xs: 2.75, md: 5.2 },
-        pt: { xs: 5.8, md: 9 },
-        pb: { xs: 3.5, md: 5.2 },
+        px: { xs: 2.5, sm: 4, md: 7, xl: 10 },
+        pt: { xs: 5, md: 8 },
+        pb: { xs: 3.5, md: 6 },
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -35,7 +33,7 @@ export default function HeroCopy() {
         component="h1"
         sx={{
           mb: 2.2,
-          fontSize: { xs: "2.2rem", sm: "2.5rem", md: "3rem", lg: "3.625rem" },
+          fontSize: { xs: "2.15rem", sm: "2.7rem", md: "3.2rem", lg: "4rem" },
           animation: "bpFadeUp 0.8s ease 0.08s both",
         }}
       >
@@ -47,10 +45,10 @@ export default function HeroCopy() {
       </Typography>
       <Typography
         sx={{
-          fontSize: { xs: 15, md: 17 },
+          fontSize: { xs: 15, md: 18 },
           lineHeight: 1.55,
           color: "#29443d",
-          maxWidth: 600,
+          maxWidth: 620,
           mb: 3,
           animation: "bpFadeUp 0.8s ease 0.16s both",
         }}
@@ -59,11 +57,11 @@ export default function HeroCopy() {
         recommendations and automated retail into one intelligent experience.
       </Typography>
       <Stack
-        direction="row"
+        direction={{ xs: "column", sm: "row" }}
         sx={{
           flexWrap: "wrap",
           gap: 1.5,
-          alignItems: "center",
+          alignItems: { xs: "stretch", sm: "center" },
           animation: "bpFadeUp 0.8s ease 0.24s both",
         }}
       >

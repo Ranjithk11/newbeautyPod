@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import type { ReactNode } from "react";
 import theme from "@/theme/theme";
+import { BrochureDialogProvider } from "./BrochureDialogProvider";
 import { DemoDialogProvider } from "./DemoDialogProvider";
 import { ToastProvider } from "./ToastProvider";
 
@@ -18,7 +19,9 @@ export default function AppProviders({ children }: AppProvidersProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ToastProvider>
-          <DemoDialogProvider>{children}</DemoDialogProvider>
+          <DemoDialogProvider>
+            <BrochureDialogProvider>{children}</BrochureDialogProvider>
+          </DemoDialogProvider>
         </ToastProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>

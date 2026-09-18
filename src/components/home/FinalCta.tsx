@@ -7,19 +7,20 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { colors } from "@/theme/colors";
+import { useBrochureDialog } from "@/components/providers/BrochureDialogProvider";
 import { useDemoDialog } from "@/components/providers/DemoDialogProvider";
 
 export default function FinalCta() {
   const { openDemo } = useDemoDialog();
+  const { openBrochure } = useBrochureDialog();
 
   return (
     <Box
       component="section"
       id="demo"
       sx={{
-        maxWidth: 1240,
-        mx: "auto",
-        minHeight: { xs: 330, md: 280 },
+        width: "100%",
+        minHeight: { xs: 330, md: 300 },
         px: { xs: 2.75, md: 7 },
         py: { xs: 6, md: 7.5 },
         color: "#fff",
@@ -37,7 +38,7 @@ export default function FinalCta() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(90deg, rgba(5,52,41,0.82) 0%, rgba(5,52,41,0.72) 48%, rgba(5,52,41,0.55) 100%)",
+            "linear-gradient(90deg, rgba(5,52,41,0.86) 0%, rgba(5,52,41,0.76) 48%, rgba(5,52,41,0.58) 100%)",
         }}
       />
       <Box sx={{ position: "relative", maxWidth: 720, animation: "bpFadeUp 0.8s ease both" }}>
@@ -74,8 +75,7 @@ export default function FinalCta() {
           </Button>
           <Button
             variant="outlined"
-            href="/beautypod-brochure.pdf"
-            download
+            onClick={openBrochure}
             startIcon={<DownloadIcon />}
             sx={{
               color: "#fff",
