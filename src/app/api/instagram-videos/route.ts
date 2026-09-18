@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-export const revalidate = 60 * 15;
+export const revalidate = 900;
 
 const GRAPH_VERSION = "v21.0";
 const DEFAULT_LIMIT = 12;
