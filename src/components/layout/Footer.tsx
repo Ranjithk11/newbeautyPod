@@ -101,6 +101,12 @@ export default function Footer() {
                   height: 30,
                   border: "1px solid #d5dfda",
                   color: colors.text,
+                  transition: "transform 0.2s ease, background-color 0.2s ease, color 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-2px)",
+                    color: colors.green,
+                    bgcolor: "rgba(8,127,91,0.08)",
+                  },
                 }}
               >
                 {createElement(social.icon, { sx: { fontSize: 16 } })}

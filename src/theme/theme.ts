@@ -99,11 +99,22 @@ const theme = createTheme({
         root: {
           borderRadius: 6,
           padding: "12px 19px",
+          transition:
+            "transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease",
+          "&:hover": {
+            transform: "translateY(-1px)",
+          },
+          "&:active": {
+            transform: "translateY(0)",
+          },
         },
         contained: {
           backgroundColor: colors.green,
           color: colors.white,
-          "&:hover": { backgroundColor: colors.greenHover },
+          "&:hover": {
+            backgroundColor: colors.greenHover,
+            boxShadow: "0 8px 18px rgba(8, 127, 91, 0.22)",
+          },
         },
         outlined: {
           borderColor: colors.green,

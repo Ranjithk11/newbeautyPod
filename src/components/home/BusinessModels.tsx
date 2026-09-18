@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { businessModels } from "@/lib/content";
 import SectionHeading from "@/components/ui/SectionHeading";
+import FadeIn from "@/components/ui/FadeIn";
 import ModelCard from "./ModelCard";
 
 export default function BusinessModels() {
@@ -26,8 +27,10 @@ export default function BusinessModels() {
             gap: 1.5,
           }}
         >
-          {businessModels.map((model) => (
-            <ModelCard key={model.title} {...model} />
+          {businessModels.map((model, index) => (
+            <FadeIn key={model.title} delay={index * 90}>
+              <ModelCard {...model} />
+            </FadeIn>
           ))}
         </Box>
       </Box>

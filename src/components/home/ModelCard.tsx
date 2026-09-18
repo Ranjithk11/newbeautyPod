@@ -22,6 +22,11 @@ export default function ModelCard({ icon, title, text, bg }: ModelCardProps) {
         textAlign: "center",
         bgcolor: bg,
         minHeight: 150,
+        transition: "transform 0.25s ease, box-shadow 0.25s ease",
+        "&:hover": {
+          transform: "translateY(-6px)",
+          boxShadow: "0 14px 28px rgba(16, 44, 39, 0.12)",
+        },
       }}
     >
       <AppIcon name={icon as IconName} sx={{ fontSize: 34, color: "#087f5b" }} />

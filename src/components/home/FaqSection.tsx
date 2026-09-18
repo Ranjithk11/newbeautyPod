@@ -31,6 +31,11 @@ export default function FaqSection() {
                   border: "1px solid #e7ece8",
                   borderRadius: "8px",
                   bgcolor: "#fff",
+                  transition: "box-shadow 0.25s ease, transform 0.25s ease",
+                  "&:hover": {
+                    boxShadow: "0 8px 18px rgba(16,44,39,0.08)",
+                    transform: "translateY(-2px)",
+                  },
                 }}
               >
                 <Box

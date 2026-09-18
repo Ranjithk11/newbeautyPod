@@ -13,6 +13,7 @@ export default function HeroVisual() {
         minHeight: { xs: 380, md: 620 },
         overflow: "hidden",
         bgcolor: "#f3f6f2",
+        animation: "bpFadeIn 0.9s ease both",
       }}
     >
       <Image
@@ -34,6 +35,7 @@ export default function HeroVisual() {
           px: { xs: 2.2, md: 3.8 },
           pt: { xs: 2.8, md: 4.2 },
           pb: { xs: 2.2, md: 3 },
+          animation: "bpFadeUp 0.9s ease 0.2s both",
         }}
       >
         <Typography

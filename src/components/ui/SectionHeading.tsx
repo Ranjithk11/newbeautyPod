@@ -14,7 +14,7 @@ export default function SectionHeading({
   light = false,
 }: SectionHeadingProps) {
   return (
-    <Box sx={{ textAlign: "center", mb: { xs: 3.5, md: 4 } }}>
+    <Box sx={{ textAlign: "center", mb: { xs: 3.5, md: 4 }, animation: "bpFadeUp 0.6s ease both" }}>
       <Typography
         variant="h2"
         component="h2"

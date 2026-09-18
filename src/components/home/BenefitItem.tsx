@@ -27,6 +27,8 @@ export default function BenefitItem({ icon, label, last = false }: BenefitItemPr
           xs: last ? 0 : "1px solid rgba(255,255,255,.2)",
           md: last ? 0 : "1px solid rgba(255,255,255,.28)",
         },
+        transition: "transform 0.25s ease",
+        "&:hover": { transform: "translateY(-4px)" },
       }}
     >
       <AppIcon name={icon as IconName} sx={{ fontSize: 40 }} />

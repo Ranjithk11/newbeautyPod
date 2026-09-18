@@ -22,6 +22,7 @@ export default function HeroCopy() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        animation: "bpFadeUp 0.8s ease both",
       }}
     >
       <Typography variant="overline" sx={{ mb: 2.2, display: "block" }}>
