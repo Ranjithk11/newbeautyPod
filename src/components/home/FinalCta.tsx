@@ -40,7 +40,7 @@ export default function FinalCta() {
             "linear-gradient(90deg, rgba(5,52,41,0.82) 0%, rgba(5,52,41,0.72) 48%, rgba(5,52,41,0.55) 100%)",
         }}
       />
-      <Box sx={{ position: "relative", maxWidth: 720 }}>
+      <Box sx={{ position: "relative", maxWidth: 720, animation: "bpFadeUp 0.8s ease both" }}>
         <Typography
           sx={{
             fontFamily: 'var(--font-playfair), Georgia, serif',

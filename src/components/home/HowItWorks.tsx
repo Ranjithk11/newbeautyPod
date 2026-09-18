@@ -3,6 +3,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Box from "@mui/material/Box";
 import { processSteps } from "@/lib/content";
 import SectionHeading from "@/components/ui/SectionHeading";
+import FadeIn from "@/components/ui/FadeIn";
 import ProcessStep from "./ProcessStep";
 
 export default function HowItWorks() {
@@ -34,7 +35,9 @@ export default function HowItWorks() {
       >
         {processSteps.map((step, index) => (
           <Fragment key={step.no}>
-            <ProcessStep {...step} />
+            <FadeIn delay={index * 90} sx={{ flex: 1 }}>
+              <ProcessStep {...step} />
+            </FadeIn>
             {index < processSteps.length - 1 ? (
               <ArrowForwardIcon
                 sx={{

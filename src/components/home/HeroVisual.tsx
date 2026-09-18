@@ -16,14 +16,36 @@ export default function HeroVisual() {
         animation: "bpFadeIn 0.9s ease both",
       }}
     >
-      <Image
-        src="/images/beautypod-machine.png"
-        alt="BeautyPOD AI skincare vending machine by Leaf Water"
-        fill
-        priority
-        sizes="(max-width: 760px) 100vw, 56vw"
-        style={{ objectFit: "contain", objectPosition: "center" }}
+      <Box
+        sx={{
+          position: "absolute",
+          width: { xs: "70%", md: "58%" },
+          height: { xs: "58%", md: "52%" },
+          left: "50%",
+          top: "46%",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(8,127,91,0.22) 0%, rgba(246,244,233,0) 72%)",
+          animation: "bpGlow 4.8s ease-in-out infinite",
+          pointerEvents: "none",
+        }}
       />
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          animation: "bpFloat 5.4s ease-in-out infinite",
+        }}
+      >
+        <Image
+          src="/images/beautypod-machine.png"
+          alt="BeautyPOD AI skincare vending machine by Leaf Water"
+          fill
+          priority
+          sizes="(max-width: 760px) 100vw, 56vw"
+          style={{ objectFit: "contain", objectPosition: "center" }}
+        />
+      </Box>
       <Box
         sx={{
           position: "absolute",

@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import type { ReactNode } from "react";
 import theme from "@/theme/theme";
 import { DemoDialogProvider } from "./DemoDialogProvider";
+import { ToastProvider } from "./ToastProvider";
 
 type AppProvidersProps = {
   children: ReactNode;
@@ -16,7 +17,9 @@ export default function AppProviders({ children }: AppProvidersProps) {
     <AppRouterCacheProvider options={{ enableCssLayer: true }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <DemoDialogProvider>{children}</DemoDialogProvider>
+        <ToastProvider>
+          <DemoDialogProvider>{children}</DemoDialogProvider>
+        </ToastProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>
   );

@@ -24,6 +24,9 @@ export default function HeroFeatures() {
             px: { xs: 0.5, md: 1.2 },
             py: 0.5,
             color: colors.green,
+            animation: `bpFadeUp 0.65s ease ${0.32 + index * 0.08}s both`,
+            transition: "transform 0.25s ease",
+            "&:hover": { transform: "translateY(-4px)" },
             borderRight: {
               xs: index % 2 === 0 ? "1px solid #d5ddd8" : "0",
               sm: index < heroFeatures.length - 1 ? "1px solid #d5ddd8" : "0",

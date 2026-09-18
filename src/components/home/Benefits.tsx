@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import { benefits } from "@/lib/content";
 import { colors } from "@/theme/colors";
 import SectionHeading from "@/components/ui/SectionHeading";
+import FadeIn from "@/components/ui/FadeIn";
 import BenefitItem from "./BenefitItem";
 
 export default function Benefits() {
@@ -29,11 +30,12 @@ export default function Benefits() {
           }}
         >
           {benefits.map((benefit, index) => (
-            <BenefitItem
-              key={benefit.label}
-              {...benefit}
-              last={index === benefits.length - 1}
-            />
+            <FadeIn key={benefit.label} delay={index * 70}>
+              <BenefitItem
+                {...benefit}
+                last={index === benefits.length - 1}
+              />
+            </FadeIn>
           ))}
         </Box>
       </Box>

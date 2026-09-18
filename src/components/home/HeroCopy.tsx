@@ -22,10 +22,12 @@ export default function HeroCopy() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        animation: "bpFadeUp 0.8s ease both",
       }}
     >
-      <Typography variant="overline" sx={{ mb: 2.2, display: "block" }}>
+      <Typography
+        variant="overline"
+        sx={{ mb: 2.2, display: "block", animation: "bpFadeUp 0.7s ease both" }}
+      >
         AI MEETS SKINCARE. EVERYWHERE.
       </Typography>
       <Typography
@@ -34,6 +36,7 @@ export default function HeroCopy() {
         sx={{
           mb: 2.2,
           fontSize: { xs: "2.2rem", sm: "2.5rem", md: "3rem", lg: "3.625rem" },
+          animation: "bpFadeUp 0.8s ease 0.08s both",
         }}
       >
         The Future of
@@ -49,6 +52,7 @@ export default function HeroCopy() {
           color: "#29443d",
           maxWidth: 600,
           mb: 3,
+          animation: "bpFadeUp 0.8s ease 0.16s both",
         }}
       >
         BeautyPod by Leaf Water combines AI skin analysis, personalised
@@ -56,7 +60,12 @@ export default function HeroCopy() {
       </Typography>
       <Stack
         direction="row"
-        sx={{ flexWrap: "wrap", gap: 1.5, alignItems: "center" }}
+        sx={{
+          flexWrap: "wrap",
+          gap: 1.5,
+          alignItems: "center",
+          animation: "bpFadeUp 0.8s ease 0.24s both",
+        }}
       >
         <Button variant="contained" onClick={openDemo} endIcon={<ArrowForwardIcon />}>
           Book a Live Demo

@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import { locations } from "@/lib/content";
 import { colors } from "@/theme/colors";
 import SectionHeading from "@/components/ui/SectionHeading";
+import FadeIn from "@/components/ui/FadeIn";
 import LocationCard from "./LocationCard";
 
 export default function Locations() {
@@ -31,8 +32,10 @@ export default function Locations() {
             gap: { xs: 1.25, md: 1.5 },
           }}
         >
-          {locations.map((location) => (
-            <LocationCard key={location.name} {...location} />
+          {locations.map((location, index) => (
+            <FadeIn key={location.name} delay={index * 50}>
+              <LocationCard {...location} />
+            </FadeIn>
           ))}
         </Box>
       </Box>

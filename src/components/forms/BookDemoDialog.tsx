@@ -10,6 +10,7 @@ import Slide from "@mui/material/Slide";
 import Typography from "@mui/material/Typography";
 import type { TransitionProps } from "@mui/material/transitions";
 import { useDemoDialog } from "@/components/providers/DemoDialogProvider";
+import { useToast } from "@/components/providers/ToastProvider";
 import LeadCaptureForm from "./LeadCaptureForm";
 
 const SlideUp = forwardRef(function SlideUp(
@@ -21,6 +22,7 @@ const SlideUp = forwardRef(function SlideUp(
 
 export default function BookDemoDialog() {
   const { open, closeDemo } = useDemoDialog();
+  const { showToast } = useToast();
 
   return (
     <Dialog
@@ -56,7 +58,12 @@ export default function BookDemoDialog() {
         <Typography sx={{ mb: 2, color: "text.secondary" }}>
           Share a few details and we will schedule a live walkthrough of BeautyPod.
         </Typography>
-        <LeadCaptureForm />
+        <LeadCaptureForm
+          onSuccess={() => {
+            closeDemo();
+            showToast("Enquiry submitted. Our team will contact you shortly.");
+          }}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -28,7 +28,7 @@ export default function CaseStudy() {
         bgcolor: colors.caseBg,
       }}
     >
-      <Box sx={{ position: "relative", minHeight: { xs: 250, md: "100%" } }}>
+      <Box sx={{ position: "relative", minHeight: { xs: 250, md: "100%" }, animation: "bpFadeIn 0.8s ease both" }}>
         <Image
           src="/images/beautypod-machine.png"
           alt="BeautyPOD machine at Hyderabad Airport"

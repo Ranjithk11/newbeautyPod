@@ -99,10 +99,12 @@ const theme = createTheme({
         root: {
           borderRadius: 6,
           padding: "12px 19px",
+          position: "relative",
+          overflow: "hidden",
           transition:
-            "transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease",
+            "transform 0.25s ease, box-shadow 0.25s ease, background-color 0.2s ease, border-color 0.2s ease",
           "&:hover": {
-            transform: "translateY(-1px)",
+            transform: "translateY(-2px)",
           },
           "&:active": {
             transform: "translateY(0)",
@@ -111,9 +113,21 @@ const theme = createTheme({
         contained: {
           backgroundColor: colors.green,
           color: colors.white,
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.28) 48%, transparent 70%)",
+            transform: "translateX(-130%)",
+            pointerEvents: "none",
+          },
           "&:hover": {
             backgroundColor: colors.greenHover,
-            boxShadow: "0 8px 18px rgba(8, 127, 91, 0.22)",
+            boxShadow: "0 10px 22px rgba(8, 127, 91, 0.26)",
+          },
+          "&:hover::after": {
+            animation: "bpShimmer 0.75s ease",
           },
         },
         outlined: {

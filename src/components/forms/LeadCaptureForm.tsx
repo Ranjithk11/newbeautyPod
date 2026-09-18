@@ -6,6 +6,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -13,6 +17,7 @@ import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import {
   interestOptions,
   locationCountOptions,
@@ -34,9 +39,9 @@ type LeadCaptureFormProps = {
 export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
   const [values, setValues] = useState<LeadFormValues>(emptyLeadForm);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | undefined>();
   const [submitting, setSubmitting] = useState(false);
+  const [phonePopupOpen, setPhonePopupOpen] = useState(false);
 
   const setField = <K extends keyof LeadFormValues>(key: K, value: LeadFormValues[K]) => {
     const next = { ...values, [key]: value };
@@ -44,6 +49,21 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
     if (errors[key]) {
       const nextErrors = validateLeadForm(next);
       setErrors((current) => ({ ...current, [key]: nextErrors[key] }));
+    }
+  };
+
+  const onPhoneChange = (value: string) => {
+    const hasLetters = /[A-Za-z]/.test(value);
+    const cleaned = value.replace(/[^\d+\s-]/g, "");
+    setValues((current) => ({ ...current, phone: cleaned }));
+    if (hasLetters) {
+      setPhonePopupOpen(true);
+      setErrors((current) => ({ ...current, phone: "Please enter a valid number" }));
+      return;
+    }
+    if (errors.phone) {
+      const nextErrors = validateLeadForm({ ...values, phone: cleaned });
+      setErrors((current) => ({ ...current, phone: nextErrors.phone }));
     }
   };
 
@@ -59,7 +79,9 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
     const nextErrors = validateLeadForm(values);
     setErrors(nextErrors);
     setSubmitError(undefined);
-    setSuccess(false);
+    if (nextErrors.phone) {
+      setPhonePopupOpen(true);
+    }
     if (Object.keys(nextErrors).length) return;
 
     setSubmitting(true);
@@ -75,7 +97,6 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
         locations: values.locations,
         timeline: values.timeline,
       });
-      setSuccess(true);
       setValues(emptyLeadForm());
       onSuccess?.();
     } catch {
@@ -127,12 +148,12 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
           type="tel"
           placeholder="Enter your phone number"
           value={values.phone}
-          onChange={(event) => setField("phone", event.target.value)}
+          onChange={(event) => onPhoneChange(event.target.value)}
           error={Boolean(errors.phone)}
           helperText={errors.phone}
           required
           autoComplete="tel"
-          slotProps={{ htmlInput: { inputMode: "tel" } }}
+          slotProps={{ htmlInput: { inputMode: "numeric", maxLength: 18 } }}
         />
         <FormTextField
           label="Email"
@@ -215,11 +236,6 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
         </FormControl>
 
         {submitError ? <Alert severity="error">{submitError}</Alert> : null}
-        {success ? (
-          <Alert severity="success">
-            Enquiry submitted. Our team will contact you shortly.
-          </Alert>
-        ) : null}
 
         <Button
           type="submit"
@@ -231,6 +247,30 @@ export default function LeadCaptureForm({ onSuccess }: LeadCaptureFormProps) {
           {submitting ? "Sending..." : "Submit Enquiry"}
         </Button>
       </Stack>
+
+      <Dialog
+        open={phonePopupOpen}
+        onClose={() => setPhonePopupOpen(false)}
+        maxWidth="xs"
+        fullWidth
+        slotProps={{
+          root: { sx: { zIndex: 1500 } },
+        }}
+      >
+        <DialogTitle id="phone-alert-title" sx={{ textAlign: "center", pb: 0.5 }}>
+          Invalid phone number
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ textAlign: "center", pt: 1 }}>
+            Please enter a valid number
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center", pb: 2.2 }}>
+          <Button variant="contained" onClick={() => setPhonePopupOpen(false)}>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

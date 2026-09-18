@@ -25,12 +25,20 @@ export function validateEmail(email: string): string | undefined {
   return undefined;
 }
 
+export function validatePhone(phone: string): string | undefined {
+  const value = phone.trim();
+  if (!value) return "Phone number is required";
+  if (/[A-Za-z]/.test(value) || digitCount(value) < 10 || digitCount(value) > 15) {
+    return "Please enter a valid number";
+  }
+  return undefined;
+}
+
 export function validateLeadForm(values: LeadFormValues): FieldErrors {
   const errors: FieldErrors = {};
   const name = values.name.trim();
   const company = values.company.trim();
   const designation = values.designation.trim();
-  const phone = values.phone.trim();
 
   if (!name) errors.name = "Name is required";
   else if (!namePattern.test(name)) errors.name = "Enter a valid full name";
@@ -43,10 +51,8 @@ export function validateLeadForm(values: LeadFormValues): FieldErrors {
     errors.designation = "Enter a valid designation";
   }
 
-  if (!phone) errors.phone = "Phone number is required";
-  else if (digitCount(phone) < 10 || digitCount(phone) > 15) {
-    errors.phone = "Enter a valid 10-15 digit phone number";
-  }
+  const phoneError = validatePhone(values.phone);
+  if (phoneError) errors.phone = phoneError;
 
   const emailError = validateEmail(values.email);
   if (emailError) errors.email = emailError;
