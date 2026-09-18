@@ -29,7 +29,7 @@ export default function Header() {
       >
         <Toolbar
           sx={{
-            minHeight: { xs: 88, md: 118 },
+            minHeight: { xs: 64, md: 72 },
             px: { xs: 2.2, md: 3 },
             maxWidth: 1240,
             width: "100%",
@@ -38,8 +38,8 @@ export default function Header() {
           }}
         >
           <Link href="/#home" aria-label="BeautyPod home" sx={{ display: "flex" }}>
-            <Box sx={{ width: { xs: 200, md: 280 }, flexShrink: 0, lineHeight: 0 }}>
-              <Logo width={280} priority />
+            <Box sx={{ width: { xs: 150, md: 176 }, height: { xs: 46, md: 52 }, flexShrink: 0, lineHeight: 0, overflow: "hidden" }}>
+              <Logo width={176} priority />
             </Box>
           </Link>
           <DesktopNav />

@@ -6,8 +6,11 @@ type LogoProps = {
   priority?: boolean;
 };
 
-export default function Logo({ width = 280, priority = false }: LogoProps) {
-  const height = Math.round((width * 403) / 1024);
+const INTRINSIC_WIDTH = 1016;
+const INTRINSIC_HEIGHT = 371;
+
+export default function Logo({ width = 176, priority = false }: LogoProps) {
+  const height = Math.round((width * INTRINSIC_HEIGHT) / INTRINSIC_WIDTH);
 
   return (
     <Image
@@ -20,7 +23,9 @@ export default function Logo({ width = 280, priority = false }: LogoProps) {
         display: "block",
         width: "100%",
         height: "auto",
+        maxHeight: "100%",
         objectFit: "contain",
+        objectPosition: "left center",
       }}
     />
   );

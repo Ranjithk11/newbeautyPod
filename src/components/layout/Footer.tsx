@@ -49,7 +49,9 @@ export default function Footer() {
         }}
       >
         <Box sx={{ gridColumn: { xs: "1 / -1", lg: "auto" } }}>
-          <Logo width={280} />
+          <Box sx={{ width: 200, lineHeight: 0 }}>
+            <Logo width={200} />
+          </Box>
           <Typography sx={{ color: "text.secondary", fontSize: 13, mt: 1 }}>
             {site.tagline}
           </Typography>
