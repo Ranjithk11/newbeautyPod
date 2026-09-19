@@ -49,8 +49,10 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
               py: 1.25,
               fontWeight: 500,
               fontSize: 15,
-              color: colors.gold,
-              borderBottom: `1px solid rgba(216,180,90,0.28)`,
+              color: colors.white,
+              borderBottom: `1px solid rgba(255,255,255,0.18)`,
+              transition: "color 0.2s ease",
+              "&:hover": { color: colors.gold },
             }}
           >
             {item.label}

@@ -25,7 +25,7 @@ export default function Header() {
           left: 0,
           right: 0,
           bgcolor: colors.header,
-          color: colors.gold,
+          color: colors.white,
         }}
       >
         <Toolbar

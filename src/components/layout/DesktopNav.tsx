@@ -6,6 +6,33 @@ import { navLinks } from "@/lib/content";
 import { colors } from "@/theme/colors";
 import { useDemoDialog } from "@/components/providers/DemoDialogProvider";
 
+const navItemSx = {
+  fontSize: { md: 13, lg: 15.5 },
+  fontWeight: 500,
+  color: colors.white,
+  whiteSpace: "nowrap",
+  letterSpacing: "0.01em",
+  textDecoration: "none",
+  position: "relative",
+  transition: "color 0.2s ease",
+  "&:hover": { color: colors.gold },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: -4,
+    height: 2,
+    bgcolor: colors.gold,
+    transform: "scaleX(0)",
+    transformOrigin: "left",
+    transition: "transform 0.2s ease",
+  },
+  "&:hover::after": {
+    transform: "scaleX(1)",
+  },
+} as const;
+
 export default function DesktopNav() {
   const { openDemo } = useDemoDialog();
 
@@ -23,19 +50,7 @@ export default function DesktopNav() {
       }}
     >
       {navLinks.map((item) => (
-        <Link
-          key={item.label}
-          href={item.href}
-          sx={{
-            fontSize: { md: 13, lg: 15.5 },
-            fontWeight: 500,
-            color: colors.gold,
-            whiteSpace: "nowrap",
-            letterSpacing: "0.01em",
-            transition: "color 0.2s ease",
-            "&:hover": { color: colors.goldSoft },
-          }}
-        >
+        <Link key={item.label} href={item.href} sx={navItemSx}>
           {item.label}
         </Link>
       ))}
@@ -44,17 +59,12 @@ export default function DesktopNav() {
         type="button"
         onClick={openDemo}
         sx={{
-          fontSize: { md: 13, lg: 15.5 },
-          fontWeight: 500,
-          color: colors.gold,
-          whiteSpace: "nowrap",
-          letterSpacing: "0.01em",
+          ...navItemSx,
           background: "none",
           border: 0,
           p: 0,
           cursor: "pointer",
           fontFamily: "inherit",
-          "&:hover": { color: colors.goldSoft },
         }}
       >
         Book a Demo
