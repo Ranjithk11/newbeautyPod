@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import { navLinks } from "@/lib/content";
@@ -7,7 +8,7 @@ import { colors } from "@/theme/colors";
 import { useDemoDialog } from "@/components/providers/DemoDialogProvider";
 
 const navItemSx = {
-  fontSize: { md: 13, lg: 15.5 },
+  fontSize: { md: 13, lg: 15 },
   fontWeight: 500,
   color: colors.white,
   whiteSpace: "nowrap",
@@ -45,7 +46,7 @@ export default function DesktopNav() {
         display: { xs: "none", md: "flex" },
         alignItems: "center",
         justifyContent: "flex-end",
-        gap: { md: 1.5, lg: 3.25 },
+        gap: { md: 1.4, lg: 2.8 },
         pr: { md: 0.5, lg: 1 },
       }}
     >
@@ -54,21 +55,32 @@ export default function DesktopNav() {
           {item.label}
         </Link>
       ))}
-      <Link
-        component="button"
-        type="button"
+      <Button
         onClick={openDemo}
         sx={{
-          ...navItemSx,
-          background: "none",
-          border: 0,
-          p: 0,
-          cursor: "pointer",
-          fontFamily: "inherit",
+          ml: { md: 0.5, lg: 1 },
+          px: { md: 2, lg: 2.4 },
+          py: 0.7,
+          minWidth: 0,
+          flexShrink: 0,
+          borderRadius: 999,
+          border: "1.5px solid #fff",
+          color: "#fff",
+          bgcolor: "transparent",
+          fontWeight: 600,
+          fontSize: { md: 13, lg: 14 },
+          textTransform: "none",
+          "&:hover": {
+            bgcolor: "#fff",
+            color: colors.header,
+            borderColor: "#fff",
+            boxShadow: "none",
+            transform: "none",
+          },
         }}
       >
         Book a Demo
-      </Link>
+      </Button>
     </Stack>
   );
 }
