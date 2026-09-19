@@ -1,31 +1,13 @@
 import { NextResponse } from "next/server";
-import { readFileSync } from "node:fs";
-import path from "node:path";
 
-export const revalidate = 900;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const runtime = "nodejs";
 
 const GRAPH_VERSION = "v21.0";
 const DEFAULT_LIMIT = 12;
 const MAX_PAGES = 5;
 const PAGE_SIZE = 25;
-
-function loadLocalInstagramEnv() {
-  if (process.env.INSTAGRAM_ACCESS_TOKEN?.trim()) return;
-  try {
-    const content = readFileSync(path.join(process.cwd(), ".env.local"), "utf8");
-    for (const line of content.split(/\r?\n/)) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith("#")) continue;
-      const i = trimmed.indexOf("=");
-      if (i === -1) continue;
-      const key = trimmed.slice(0, i).trim();
-      const value = trimmed.slice(i + 1).trim();
-      if (!process.env[key]) process.env[key] = value;
-    }
-  } catch {
-    // .env.local is optional in production.
-  }
-}
 
 export type InstagramVideoItem = {
   id: string;
@@ -47,28 +29,7 @@ const isVideoItem = (item: {
   return type === "VIDEO" || product === "REELS";
 };
 
-const mapVideo = (item: {
-  id: string;
-  caption?: string;
-  media_type: string;
-  media_product_type?: string;
-  media_url?: string;
-  thumbnail_url?: string;
-  permalink: string;
-  timestamp: string;
-}): InstagramVideoItem => ({
-  id: item.id,
-  caption: item.caption || "",
-  mediaType: item.media_type,
-  mediaProductType: item.media_product_type || null,
-  mediaUrl: item.media_url || null,
-  thumbnailUrl: item.thumbnail_url || null,
-  permalink: item.permalink,
-  timestamp: item.timestamp,
-});
-
 export async function GET(request: Request) {
-  loadLocalInstagramEnv();
   const token = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
   const igUserId =
     process.env.INSTAGRAM_USER_ID?.trim() ||
@@ -78,7 +39,8 @@ export async function GET(request: Request) {
     return NextResponse.json(
       {
         configured: false,
-        error: "Missing INSTAGRAM_ACCESS_TOKEN in environment.",
+        error:
+          "Missing INSTAGRAM_ACCESS_TOKEN. Add it (and INSTAGRAM_USER_ID) in Vercel → Project → Settings → Environment Variables, then redeploy.",
         videos: [],
       },
       { status: 200 },
@@ -102,8 +64,9 @@ export async function GET(request: Request) {
     "timestamp",
   ].join(",");
 
+  const origin = igUserId ? `${igUserId}/media` : "me/media";
   let nextUrl: string | null =
-    `https://graph.instagram.com/${GRAPH_VERSION}/me/media` +
+    `https://graph.instagram.com/${GRAPH_VERSION}/${origin}` +
     `?fields=${fields}&limit=${PAGE_SIZE}&access_token=${encodeURIComponent(token)}`;
 
   const videos: InstagramVideoItem[] = [];
@@ -132,12 +95,28 @@ export async function GET(request: Request) {
 
       if (!res.ok) {
         lastError = json?.error?.message || "Instagram API error";
+        if (origin !== "me/media" && page === 0) {
+          nextUrl =
+            `https://graph.instagram.com/${GRAPH_VERSION}/me/media` +
+            `?fields=${fields}&limit=${PAGE_SIZE}&access_token=${encodeURIComponent(token)}`;
+          lastError = null;
+          continue;
+        }
         break;
       }
 
       for (const item of json?.data || []) {
         if (!isVideoItem(item)) continue;
-        videos.push(mapVideo(item));
+        videos.push({
+          id: item.id,
+          caption: item.caption || "",
+          mediaType: item.media_type,
+          mediaProductType: item.media_product_type || null,
+          mediaUrl: item.media_url || null,
+          thumbnailUrl: `/api/instagram-media/${item.id}`,
+          permalink: item.permalink,
+          timestamp: item.timestamp,
+        });
         if (videos.length >= limit) break;
       }
 
@@ -166,7 +145,7 @@ export async function GET(request: Request) {
       },
       {
         headers: {
-          "Cache-Control": "s-maxage=900, stale-while-revalidate=1800",
+          "Cache-Control": "private, no-store",
         },
       },
     );

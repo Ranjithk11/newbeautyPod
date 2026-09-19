@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowSVG: true,
   },
+  outputFileTracingIncludes: {
+    "/api/enquiry": [
+      "./src/assets/beautypod-brochure.jpg",
+      "./public/beautypod-brochure.jpg",
+    ],
+  },
 };
 
 export default nextConfig;

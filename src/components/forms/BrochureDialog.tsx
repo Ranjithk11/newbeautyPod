@@ -78,8 +78,8 @@ export default function BrochureDialog() {
             );
             window.setTimeout(() => {
               const link = document.createElement("a");
-              link.href = "/beautypod-brochure.pdf";
-              link.download = "BeautyPod-Brochure.pdf";
+              link.href = "/beautypod-brochure.jpg";
+              link.download = "BeautyPod-Brochure.jpg";
               document.body.appendChild(link);
               link.click();
               link.remove();

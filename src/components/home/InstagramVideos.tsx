@@ -26,6 +26,10 @@ type InstagramVideo = {
 
 const instagramHref = socialLinks.find((item) => item.label === "Instagram")?.href ?? "https://www.instagram.com/leafwater.skincare/";
 
+function instagramEmbedSrc(permalink: string) {
+  return `${permalink.split("?")[0].replace(/\/$/, "")}/embed`;
+}
+
 export default function InstagramVideos() {
   const [videos, setVideos] = useState<InstagramVideo[]>([]);
   const [configured, setConfigured] = useState(true);
@@ -79,12 +83,8 @@ export default function InstagramVideos() {
   }, [active]);
 
   const openVideo = (video: InstagramVideo) => {
-    if (video.mediaUrl) {
+    if (video.permalink || video.mediaUrl) {
       setActive(video);
-      return;
-    }
-    if (video.permalink) {
-      window.open(video.permalink, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -112,8 +112,9 @@ export default function InstagramVideos() {
         ) : null}
 
         {!loading && !configured ? (
-          <Typography sx={{ textAlign: "center", color: "rgba(255,255,255,0.8)" }}>
-            Connect Instagram to show the latest Leaf Water reels here.
+          <Typography sx={{ textAlign: "center", color: "rgba(255,255,255,0.8)", maxWidth: 640, mx: "auto" }}>
+            Instagram is not connected on this host. Add INSTAGRAM_ACCESS_TOKEN and
+            INSTAGRAM_USER_ID in Vercel environment variables, then redeploy.
           </Typography>
         ) : null}
 
@@ -164,6 +165,7 @@ export default function InstagramVideos() {
                     <img
                       src={thumb}
                       alt={video.caption?.slice(0, 80) || "Instagram video"}
+                      referrerPolicy="no-referrer"
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   ) : null}
@@ -231,7 +233,7 @@ export default function InstagramVideos() {
         </Box>
       </Box>
 
-      {mounted && active?.mediaUrl
+      {mounted && active
         ? createPortal(
             <Box
               onClick={() => setActive(null)}
@@ -264,20 +266,31 @@ export default function InstagramVideos() {
                 >
                   <CloseIcon />
                 </IconButton>
-                <video
-                  key={active.id}
-                  src={active.mediaUrl}
-                  controls
-                  autoPlay
-                  playsInline
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    display: "block",
-                    objectFit: "contain",
-                    background: "#000",
-                  }}
-                />
+                {active.permalink ? (
+                  <Box
+                    component="iframe"
+                    src={instagramEmbedSrc(active.permalink)}
+                    title={active.caption || "Instagram reel"}
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+                    sx={{ width: "100%", height: "100%", border: 0 }}
+                  />
+                ) : (
+                  <video
+                    key={active.id}
+                    src={active.mediaUrl || undefined}
+                    poster={active.thumbnailUrl || undefined}
+                    controls
+                    autoPlay
+                    playsInline
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "block",
+                      objectFit: "contain",
+                      background: "#000",
+                    }}
+                  />
+                )}
               </Box>
             </Box>,
             document.body,

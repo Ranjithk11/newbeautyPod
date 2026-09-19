@@ -28,12 +28,16 @@ export const socialLinks = [
 ] as const;
 
 export const brandPartners = [
-  { name: "Kaya", logo: "/brands/kaya.png" },
-  { name: "L'Oréal", logo: "/brands/loreal.png" },
-  { name: "Lotus", logo: "/brands/lotus.png" },
-  { name: "Vini", logo: "/brands/vini.png" },
-  { name: "Unicharm", logo: "/brands/unicharm.png" },
-  { name: "SkinSider", logo: "/brands/skin_sider.png" },
+  { name: "Cetaphil", logo: "/brands/cetaphil.png?v=2" },
+  { name: "Foxtale", logo: "/brands/foxtale.png?v=2" },
+  { name: "Minimalist", logo: "/brands/minimalist.png?v=2" },
+  { name: "Plix", logo: "/brands/plix.png?v=2" },
+  { name: "Aqualogica", logo: "/brands/aqualogica.svg?v=2" },
+  { name: "Sebamed", logo: "/brands/sebamed.svg?v=2" },
+  { name: "Pilgrim", logo: "/brands/pilgrim.png?v=2" },
+  { name: "The Derma Co", logo: "/brands/the-derma-co.png?v=2" },
+  { name: "CeraVe", logo: "/brands/cerave.png?v=2" },
+  { name: "Neutrogena", logo: "/brands/neutrogena.svg?v=2" },
 ] as const;
 
 export const reviews = [

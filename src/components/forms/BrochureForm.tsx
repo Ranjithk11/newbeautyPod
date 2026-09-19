@@ -64,13 +64,23 @@ export default function BrochureForm({ onSuccess }: BrochureFormProps) {
           request: "Send BeautyPod brochure from Leaf Water mail",
         } satisfies Parameters<typeof submitEnquiry>[0]),
       });
-      const json = (await response.json()) as { ok?: boolean; emailed?: boolean };
-      if (!response.ok) {
-        throw new Error("Could not send your details. Please try again.");
+      const json = (await response.json()) as {
+        ok?: boolean;
+        emailed?: boolean;
+        error?: string;
+      };
+      if (!response.ok || !json.emailed) {
+        throw new Error(
+          json.error || "Could not email the brochure. Please try again.",
+        );
       }
-      onSuccess?.(Boolean(json.emailed));
-    } catch {
-      setSubmitError("Could not send your details. Please try again.");
+      onSuccess?.(true);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Could not send your details. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }

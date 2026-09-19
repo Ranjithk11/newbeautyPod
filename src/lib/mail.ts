@@ -1,40 +1,63 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 import nodemailer from "nodemailer";
+import { site } from "@/lib/content";
+import {
+  BROCHURE_CONTENT_TYPE,
+  BROCHURE_FILENAME,
+  brochureEmailCopy,
+  brochurePublicUrl,
+  loadBrochureImage,
+} from "@/lib/brochure";
 
-export async function sendBrochureEmail(to: string, phone: string) {
-  const user = process.env.SMTP_USER?.trim() || process.env.MAIL_USER?.trim();
+const LEAF_WATER_FROM = `"Leaf Water" <${site.email}>`;
+
+function smtpCredentials() {
+  const user = process.env.SMTP_USER?.trim() || process.env.MAIL_USER?.trim() || site.email;
   const pass = process.env.SMTP_PASS?.trim() || process.env.MAIL_PASS?.trim();
-  const from =
-    process.env.MAIL_FROM?.trim() || `"Leaf Water" <reachleafwater@gmail.com>`;
+  return { user, pass };
+}
 
-  if (!user || !pass) {
+export async function sendBrochureEmail(
+  to: string,
+  phone: string,
+  origin?: string,
+) {
+  const { user, pass } = smtpCredentials();
+  if (!pass) {
+    console.warn(
+      "[brochure-email] Missing SMTP_PASS / MAIL_PASS. Add the Gmail app password in Vercel env vars.",
+    );
     return false;
   }
 
-  const pdf = await readFile(
-    path.join(process.cwd(), "public", "beautypod-brochure.pdf"),
-  );
+  const brochure = await loadBrochureImage(origin);
+  const brochureUrl = brochurePublicUrl(origin || site.url);
+  const { text, html } = brochureEmailCopy(phone, brochureUrl, { inlineCid: true });
+  const from = process.env.MAIL_FROM?.trim() || LEAF_WATER_FROM;
+  const port = Number(process.env.SMTP_PORT || 587);
+  const secure =
+    process.env.SMTP_SECURE === "true" || port === 465;
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST?.trim() || "smtp.gmail.com",
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === "true",
+    port,
+    secure,
     auth: { user, pass },
   });
 
   await transporter.sendMail({
     from,
     to,
-    replyTo: from,
+    cc: site.email,
+    replyTo: site.email,
     subject: "Your BeautyPod brochure from Leaf Water",
-    text: `Thank you for your interest in BeautyPod by Leaf Water.\n\nPlease find the brochure attached.\n\nPhone: ${phone}\nEmail: ${to}`,
-    html: `<p>Thank you for your interest in <strong>BeautyPod by Leaf Water</strong>.</p><p>Please find the brochure attached.</p><p>We will also reach you at ${phone} if you would like a walkthrough.</p>`,
+    text,
+    html,
     attachments: [
       {
-        filename: "BeautyPod-Brochure.pdf",
-        content: pdf,
-        contentType: "application/pdf",
+        filename: BROCHURE_FILENAME,
+        content: brochure,
+        contentType: BROCHURE_CONTENT_TYPE,
+        cid: "beautypod-brochure",
       },
     ],
   });
