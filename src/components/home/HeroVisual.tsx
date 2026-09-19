@@ -38,7 +38,7 @@ export default function HeroVisual() {
         }}
       >
         <Image
-          src="/images/beautypod-machine.png"
+          src="/images/beautypod-machine.jpg"
           alt="BeautyPOD AI skincare vending machine by Leaf Water"
           fill
           priority

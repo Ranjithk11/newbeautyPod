@@ -5,5 +5,5 @@ export const FORM_IMAGES = {
   logoUrl:
     "https://raw.githubusercontent.com/Ranjithk11/newbeautyPod/main/public/images/logo.jpg",
   machineImageUrl:
-    "https://raw.githubusercontent.com/Ranjithk11/newbeautyPod/main/public/images/beautypod-machine.png",
+    "https://raw.githubusercontent.com/Ranjithk11/newbeautyPod/main/public/images/beautypod-machine.jpg",
 };

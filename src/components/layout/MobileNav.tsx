@@ -26,7 +26,9 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
       slotProps={{
         paper: {
           sx: {
-            top: { xs: 76, md: 96 },
+            top: { xs: 76, md: 88 },
+            bgcolor: colors.header,
+            color: colors.gold,
             boxShadow: "0 15px 30px rgba(0,0,0,.12)",
           },
         },
@@ -34,7 +36,7 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
     >
       <Stack component="nav" aria-label="Mobile" sx={{ px: 2.5, pt: 1, pb: 2.5 }}>
         <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
-          <IconButton aria-label="Close menu" onClick={onClose}>
+          <IconButton aria-label="Close menu" onClick={onClose} sx={{ color: colors.gold }}>
             <CloseIcon />
           </IconButton>
         </Stack>
@@ -44,10 +46,11 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
             href={item.href}
             onClick={onClose}
             sx={{
-              py: 1.5,
-              fontWeight: 700,
-              fontSize: 14,
-              borderBottom: `1px solid ${colors.border}`,
+              py: 1.25,
+              fontWeight: 500,
+              fontSize: 15,
+              color: colors.gold,
+              borderBottom: `1px solid rgba(216,180,90,0.28)`,
             }}
           >
             {item.label}

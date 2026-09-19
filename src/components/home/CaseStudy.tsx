@@ -29,7 +29,7 @@ export default function CaseStudy() {
     >
       <Box sx={{ position: "relative", minHeight: { xs: 250, md: "100%" }, animation: "bpFadeIn 0.8s ease both" }}>
         <Image
-          src="/images/beautypod-machine.png"
+          src="/images/beautypod-machine.jpg"
           alt="BeautyPOD machine at Hyderabad Airport"
           fill
           sizes="(max-width: 760px) 100vw, 40vw"

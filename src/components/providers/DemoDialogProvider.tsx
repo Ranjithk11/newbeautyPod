@@ -3,7 +3,9 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -18,11 +20,25 @@ const DemoDialogContext = createContext<DemoDialogContextValue | null>(null);
 
 export function DemoDialogProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const dismissedRef = useRef(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (!dismissedRef.current) {
+        setOpen(true);
+      }
+    }, 10000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   const value = useMemo(
     () => ({
       open,
       openDemo: () => setOpen(true),
-      closeDemo: () => setOpen(false),
+      closeDemo: () => {
+        dismissedRef.current = true;
+        setOpen(false);
+      },
     }),
     [open],
   );

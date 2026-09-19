@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/beautypod-machine.png",
+        url: "/images/beautypod-machine.jpg",
         alt: "BeautyPOD AI skincare vending machine",
       },
       {

@@ -19,6 +19,7 @@ export default function Logo({ width = 176, priority = false }: LogoProps) {
       width={width}
       height={height}
       priority={priority}
+      quality={95}
       style={{
         display: "block",
         width: "100%",

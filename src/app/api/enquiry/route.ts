@@ -40,13 +40,13 @@ export async function POST(request: Request) {
   try {
     const [logo, machine] = await Promise.all([
       readFile(path.join(publicDir, "images", "logo.jpg")),
-      readFile(path.join(publicDir, "images", "beautypod-machine.png")),
+      readFile(path.join(publicDir, "images", "beautypod-machine.jpg")),
     ]);
     formData.append("logo", toBlob(logo, "image/jpeg"), "beautypod-logo.jpg");
     formData.append(
       "machineImage",
-      toBlob(machine, "image/png"),
-      "beautypod-machine.png",
+      toBlob(machine, "image/jpeg"),
+      "beautypod-machine.jpg",
     );
   } catch {
     // Still send field data if files cannot be read.
