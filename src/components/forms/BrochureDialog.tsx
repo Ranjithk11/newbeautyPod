@@ -57,7 +57,7 @@ export default function BrochureDialog() {
           Download the BeautyPod brochure
         </Typography>
         <Typography sx={{ mt: 0.75, color: "rgba(255,255,255,0.86)", fontSize: 14 }}>
-          Share your email and phone number. We will send the brochure from Leaf Water mail.
+          Share your email and phone number to download the BeautyPod brochure.
         </Typography>
         <IconButton
           aria-label="Close brochure form"
@@ -69,13 +69,9 @@ export default function BrochureDialog() {
       </Box>
       <DialogContent sx={{ pt: 2.5, pb: 3, bgcolor: colors.cream }}>
         <BrochureForm
-          onSuccess={(emailed) => {
+          onSuccess={() => {
             closeBrochure();
-            showToast(
-              emailed
-                ? "Brochure sent to your email from Leaf Water."
-                : "Details received. The brochure will be emailed from Leaf Water shortly.",
-            );
+            showToast("Details received. Your brochure is downloading.");
             window.setTimeout(() => {
               const link = document.createElement("a");
               link.href = "/beautypod-brochure.jpg";

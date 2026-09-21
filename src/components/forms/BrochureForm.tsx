@@ -61,20 +61,20 @@ export default function BrochureForm({ onSuccess }: BrochureFormProps) {
           formType: "brochure",
           email: values.email.trim(),
           phone: values.phone.trim(),
-          request: "Send BeautyPod brochure from Leaf Water mail",
+          request: "Download BeautyPod brochure",
         } satisfies Parameters<typeof submitEnquiry>[0]),
       });
       const json = (await response.json()) as {
         ok?: boolean;
-        emailed?: boolean;
+        sent?: boolean;
         error?: string;
       };
-      if (!response.ok || !json.emailed) {
+      if (!response.ok || !json.ok) {
         throw new Error(
-          json.error || "Could not email the brochure. Please try again.",
+          json.error || "Could not send your details. Please try again.",
         );
       }
-      onSuccess?.(true);
+      onSuccess?.(Boolean(json.sent ?? json.ok));
     } catch (error) {
       setSubmitError(
         error instanceof Error
@@ -128,7 +128,7 @@ export default function BrochureForm({ onSuccess }: BrochureFormProps) {
           disabled={submitting}
           startIcon={submitting ? <CircularProgress size={16} color="inherit" /> : null}
         >
-          {submitting ? "Sending..." : "Email me the brochure"}
+          {submitting ? "Sending..." : "Download brochure"}
         </Button>
       </Stack>
 

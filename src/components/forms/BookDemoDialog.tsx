@@ -13,7 +13,7 @@ import type { TransitionProps } from "@mui/material/transitions";
 import { useDemoDialog } from "@/components/providers/DemoDialogProvider";
 import { useToast } from "@/components/providers/ToastProvider";
 import { colors } from "@/theme/colors";
-import CalendlyEmbed from "./CalendlyEmbed";
+import DemoSlotPicker from "./DemoSlotPicker";
 import LeadCaptureForm, { type LeadSuccessDetails } from "./LeadCaptureForm";
 
 const SlideUp = forwardRef(function SlideUp(
@@ -48,10 +48,11 @@ export default function BookDemoDialog() {
       slotProps={{
         paper: {
           sx: {
-            overflow: "hidden",
+            overflow: "auto",
             borderRadius: 3,
             border: `1px solid ${colors.goldSoft}`,
             background: `linear-gradient(180deg, ${colors.white} 0%, ${colors.cream} 100%)`,
+            maxHeight: "92vh",
           },
         },
       }}
@@ -87,12 +88,12 @@ export default function BookDemoDialog() {
             pr: 5,
           }}
         >
-          {step === "form" ? "Book a BeautyPod Demo" : "Schedule with Calendly"}
+          {step === "form" ? "Book a BeautyPod Demo" : "Choose a 2-hour slot"}
         </Typography>
         <Typography sx={{ mt: 0.8, color: "rgba(255,255,255,0.86)", fontSize: 14, maxWidth: 460 }}>
           {step === "form"
             ? "Share a few details and pick a live walkthrough slot. Your enquiry is sent to our team instantly."
-            : "Select a convenient time. Your details have already been shared with Leaf Water."}
+            : "Select a slot between 7:00 AM and 7:00 PM IST. Your details have already been shared with Leaf Water."}
         </Typography>
         <IconButton
           aria-label="Close demo form"
@@ -115,7 +116,7 @@ export default function BookDemoDialog() {
             onSuccess={(next) => {
               setDetails(next);
               setStep("calendly");
-              showToast("Enquiry submitted. Choose a Calendly slot to confirm.");
+              showToast("Enquiry submitted. Choose a 2-hour demo slot to confirm.");
             }}
           />
         ) : (
@@ -126,10 +127,10 @@ export default function BookDemoDialog() {
                 Almost done — lock your demo time
               </Typography>
             </Box>
-            <CalendlyEmbed
+            <DemoSlotPicker
               {...details}
               onScheduled={() => {
-                showToast("Demo booked. We will see you on Calendly.");
+                showToast("Demo slot booked. Leaf Water will confirm with you.");
                 handleClose();
               }}
             />
