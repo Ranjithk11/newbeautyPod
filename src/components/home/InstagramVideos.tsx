@@ -40,6 +40,9 @@ function NativeReelPlayer({ video }: { video: InstagramVideo }) {
     const el = ref.current;
     if (!el) return undefined;
 
+    el.setAttribute("referrerpolicy", "no-referrer");
+    el.src = videoSrc(video);
+
     const tryPlay = () => {
       el.play().catch(() => {
         el.muted = true;
@@ -89,13 +92,11 @@ function NativeReelPlayer({ video }: { video: InstagramVideo }) {
   return (
     <video
       ref={ref}
-      src={videoSrc(video)}
       poster={video.thumbnailUrl || undefined}
       controls
       autoPlay
       playsInline
       preload="auto"
-      referrerPolicy="no-referrer"
       onError={() => setFailed(true)}
       style={{
         width: "100%",
