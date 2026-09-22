@@ -81,7 +81,7 @@ export default function Hero() {
           minHeight: { md: "calc(100svh - 88px)" },
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "minmax(0, 1fr) minmax(0, 1.15fr)" },
-          alignItems: "center",
+          alignItems: { xs: "start", md: "start" },
         }}
       >
         <HeroCopy />

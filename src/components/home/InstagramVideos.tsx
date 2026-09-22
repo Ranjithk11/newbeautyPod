@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -26,8 +28,84 @@ type InstagramVideo = {
 
 const instagramHref = socialLinks.find((item) => item.label === "Instagram")?.href ?? "https://www.instagram.com/leafwater.skincare/";
 
-function instagramEmbedSrc(permalink: string) {
-  return `${permalink.split("?")[0].replace(/\/$/, "")}/embed`;
+function videoSrc(video: InstagramVideo) {
+  return `/api/instagram-media/${video.id}?kind=video`;
+}
+
+function NativeReelPlayer({ video }: { video: InstagramVideo }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+
+    const tryPlay = () => {
+      el.play().catch(() => {
+        el.muted = true;
+        el.play().catch(() => undefined);
+      });
+    };
+
+    if (el.readyState >= 2) {
+      tryPlay();
+    } else {
+      el.addEventListener("loadeddata", tryPlay, { once: true });
+    }
+
+    return () => {
+      el.removeEventListener("loadeddata", tryPlay);
+      el.pause();
+    };
+  }, [video.id]);
+
+  if (failed) {
+    return (
+      <Box
+        sx={{
+          height: "100%",
+          display: "grid",
+          placeItems: "center",
+          px: 3,
+          textAlign: "center",
+          color: "#fff",
+        }}
+      >
+        <Box>
+          <Typography sx={{ mb: 1.5 }}>This reel could not start here.</Typography>
+          <Link
+            href={video.permalink}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ color: "#9ecbff", fontWeight: 700 }}
+          >
+            Watch on Instagram
+          </Link>
+        </Box>
+      </Box>
+    );
+  }
+
+  return (
+    <video
+      ref={ref}
+      src={videoSrc(video)}
+      poster={video.thumbnailUrl || undefined}
+      controls
+      autoPlay
+      playsInline
+      preload="auto"
+      referrerPolicy="no-referrer"
+      onError={() => setFailed(true)}
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "block",
+        objectFit: "contain",
+        background: "#000",
+      }}
+    />
+  );
 }
 
 export default function InstagramVideos() {
@@ -37,6 +115,9 @@ export default function InstagramVideos() {
   const [error, setError] = useState<string | null>(null);
   const [active, setActive] = useState<InstagramVideo | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [page, setPage] = useState(0);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -82,6 +163,55 @@ export default function InstagramVideos() {
     };
   }, [active]);
 
+  const cardStep = () => {
+    const el = scrollerRef.current;
+    const card = el?.querySelector<HTMLElement>("[data-ig-card]");
+    if (!el || !card) return 272;
+    const styles = window.getComputedStyle(el);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || "12") || 12;
+    return card.offsetWidth + gap;
+  };
+
+  const maxPage = () => {
+    const el = scrollerRef.current;
+    if (!el) return Math.max(0, videos.length - 1);
+    const step = cardStep();
+    return Math.max(0, Math.round((el.scrollWidth - el.clientWidth) / step));
+  };
+
+  const goTo = (next: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const last = maxPage();
+    let target = next;
+    if (target > last) target = 0;
+    if (target < 0) target = last;
+    setPage(target);
+    const wrap = (next > last || next < 0) && last > 0;
+    el.scrollTo({ left: target * cardStep(), behavior: wrap ? "auto" : "smooth" });
+  };
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return undefined;
+    const onScroll = () => {
+      const step = cardStep();
+      setPage(Math.round(el.scrollLeft / step));
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [videos.length]);
+
+  useEffect(() => {
+    if (paused || active || videos.length < 2) return undefined;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return undefined;
+    const timer = window.setInterval(() => {
+      goTo(page + 1);
+    }, 3500);
+    return () => window.clearInterval(timer);
+  }, [paused, active, page, videos.length]);
+
   const openVideo = (video: InstagramVideo) => {
     if (video.permalink || video.mediaUrl) {
       setActive(video);
@@ -126,21 +256,71 @@ export default function InstagramVideos() {
 
         {!loading && videos.length > 0 ? (
           <Box
-            sx={{
-              display: "flex",
-              gap: 1.5,
-              overflowX: "auto",
-              pb: 1.5,
-              scrollSnapType: "x mandatory",
-              "&::-webkit-scrollbar": { height: 8 },
-              "&::-webkit-scrollbar-thumb": { bgcolor: "rgba(255,255,255,0.28)", borderRadius: 99 },
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocusCapture={() => setPaused(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                setPaused(false);
+              }
             }}
+            sx={{ position: "relative" }}
           >
+            {videos.length > 1 ? (
+              <>
+                <IconButton
+                  aria-label="Previous Instagram video"
+                  onClick={() => goTo(page - 1)}
+                  sx={{
+                    position: "absolute",
+                    left: { xs: -6, md: -18 },
+                    top: "42%",
+                    zIndex: 2,
+                    bgcolor: "rgba(255,255,255,0.94)",
+                    color: colors.green,
+                    boxShadow: "0 8px 18px rgba(0,0,0,0.22)",
+                    "&:hover": { bgcolor: "#fff" },
+                  }}
+                >
+                  <ChevronLeftIcon />
+                </IconButton>
+                <IconButton
+                  aria-label="Next Instagram video"
+                  onClick={() => goTo(page + 1)}
+                  sx={{
+                    position: "absolute",
+                    right: { xs: -6, md: -18 },
+                    top: "42%",
+                    zIndex: 2,
+                    bgcolor: "rgba(255,255,255,0.94)",
+                    color: colors.green,
+                    boxShadow: "0 8px 18px rgba(0,0,0,0.22)",
+                    "&:hover": { bgcolor: "#fff" },
+                  }}
+                >
+                  <ChevronRightIcon />
+                </IconButton>
+              </>
+            ) : null}
+            <Box
+              ref={scrollerRef}
+              data-ig-scroller
+              sx={{
+                display: "flex",
+                gap: 1.5,
+                overflowX: "auto",
+                pb: 1.5,
+                scrollSnapType: "x mandatory",
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": { display: "none" },
+              }}
+            >
             {videos.map((video) => {
               const thumb = video.thumbnailUrl || video.mediaUrl;
               return (
                 <Box
                   key={video.id}
+                  data-ig-card
                   component="button"
                   type="button"
                   onClick={() => openVideo(video)}
@@ -211,6 +391,7 @@ export default function InstagramVideos() {
                 </Box>
               );
             })}
+            </Box>
           </Box>
         ) : null}
 
@@ -266,31 +447,7 @@ export default function InstagramVideos() {
                 >
                   <CloseIcon />
                 </IconButton>
-                {active.permalink ? (
-                  <Box
-                    component="iframe"
-                    src={instagramEmbedSrc(active.permalink)}
-                    title={active.caption || "Instagram reel"}
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
-                    sx={{ width: "100%", height: "100%", border: 0 }}
-                  />
-                ) : (
-                  <video
-                    key={active.id}
-                    src={active.mediaUrl || undefined}
-                    poster={active.thumbnailUrl || undefined}
-                    controls
-                    autoPlay
-                    playsInline
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      display: "block",
-                      objectFit: "contain",
-                      background: "#000",
-                    }}
-                  />
-                )}
+                <NativeReelPlayer key={active.id} video={active} />
               </Box>
             </Box>,
             document.body,

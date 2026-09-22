@@ -14,6 +14,9 @@ export default function HowItWorks() {
       sx={{
         py: { xs: 5.2, md: 6.5 },
         px: { xs: 2.2, md: 3 },
+        position: "relative",
+        zIndex: 3,
+        overflow: "visible",
         background:
           "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(238,246,241,0.9) 100%)",
       }}
@@ -29,15 +32,20 @@ export default function HowItWorks() {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
-          alignItems: { xs: "stretch", md: "center" },
+          alignItems: { xs: "stretch", md: "flex-start" },
           justifyContent: "space-between",
           gap: 1.5,
+          overflow: "visible",
+          pb: { xs: 1, md: 2 },
         }}
       >
         {processSteps.map((step, index) => (
           <Fragment key={step.no}>
-            <FadeIn delay={index * 90} sx={{ flex: 1 }}>
-              <ProcessStep {...step} />
+            <FadeIn delay={index * 90} sx={{ flex: 1, overflow: "visible", position: "relative" }}>
+              <ProcessStep
+                {...step}
+                align={index === 0 ? "left" : index === processSteps.length - 1 ? "right" : "center"}
+              />
             </FadeIn>
             {index < processSteps.length - 1 ? (
               <ArrowForwardIcon

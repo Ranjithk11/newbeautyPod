@@ -12,6 +12,7 @@ import Logo from "@/components/ui/Logo";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 
 const quickLinks = [
+  { label: "Shop Products", href: "/products" },
   { label: "For Retailers", href: "/#retailers" },
   { label: "For Brands", href: "/#brands" },
   { label: "Brands", href: "/#brand-partners" },

@@ -7,8 +7,10 @@ import { navLinks } from "@/lib/content";
 import { colors } from "@/theme/colors";
 import { useDemoDialog } from "@/components/providers/DemoDialogProvider";
 
+const compactHidden = new Set(["Locations", "How It Works", "Case Studies"]);
+
 const navItemSx = {
-  fontSize: { md: 13, lg: 15 },
+  fontSize: { md: 12, lg: 14 },
   fontWeight: 500,
   color: colors.white,
   whiteSpace: "nowrap",
@@ -46,12 +48,21 @@ export default function DesktopNav() {
         display: { xs: "none", md: "flex" },
         alignItems: "center",
         justifyContent: "flex-end",
-        gap: { md: 1.4, lg: 2.8 },
+        gap: { md: 1, lg: 1.8 },
         pr: { md: 0.5, lg: 1 },
       }}
     >
       {navLinks.map((item) => (
-        <Link key={item.label} href={item.href} sx={navItemSx}>
+        <Link
+          key={item.label}
+          href={item.href}
+          sx={{
+            ...navItemSx,
+            display: compactHidden.has(item.label)
+              ? { md: "none", xl: "inline" }
+              : "inline",
+          }}
+        >
           {item.label}
         </Link>
       ))}

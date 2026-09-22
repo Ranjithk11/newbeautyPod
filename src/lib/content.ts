@@ -87,6 +87,7 @@ export const reviews = [
 
 export const navLinks = [
   { label: "Home", href: "/#home" },
+  { label: "Products", href: "/products" },
   { label: "For Retailers", href: "/#retailers" },
   { label: "For Brands", href: "/#brands" },
   { label: "Brands", href: "/#brand-partners" },
@@ -109,24 +110,56 @@ export const processSteps = [
     title: "Scan",
     text: "Take a quick facial scan using our AI technology.",
     icon: "scan",
+    popupTitle: "How the scan works",
+    popupBody:
+      "The guest stands in front of the BeautyPod camera. In a few seconds the kiosk maps the face — no app, no login, no contact.",
+    popupPoints: [
+      "On-device camera captures a clear facial frame",
+      "Lighting is adjusted automatically for airport and mall sites",
+      "The scan is used only to generate a skin profile",
+    ],
   },
   {
     no: "02",
     title: "Analyse",
     text: "Our AI analyses key skin indicators.",
     icon: "analyse",
+    popupTitle: "What the AI reads",
+    popupBody:
+      "A trained model scores visible skin cues in real time and turns them into a short profile the kiosk can act on.",
+    popupPoints: [
+      "Checks hydration, oiliness, texture and dullness",
+      "Compares the reading with the in-machine product catalogue",
+      "Results stay on the session — nothing is stored as a customer login",
+    ],
   },
   {
     no: "03",
     title: "Recommend",
     text: "Get personalised skincare recommendations.",
     icon: "recommend",
+    popupTitle: "How products are chosen",
+    popupBody:
+      "The profile is matched to genuine branded SKUs already stocked in that BeautyPod, so every suggestion is available to buy immediately.",
+    popupPoints: [
+      "Matches concern + skin type to the live machine inventory",
+      "Ranks a short routine: cleanse, treat, moisturise, protect",
+      "Shows why each product was picked, in plain language",
+    ],
   },
   {
     no: "04",
     title: "Purchase",
     text: "Buy your recommended products instantly.",
     icon: "purchase",
+    popupTitle: "Pay and pick up",
+    popupBody:
+      "The guest pays at the kiosk and collects the products from the same machine — the retail moment happens in one place.",
+    popupPoints: [
+      "UPI, card or wallet at the pod",
+      "Vend the selected SKUs from the live inventory",
+      "Receipt and product details on screen before they walk away",
+    ],
   },
 ] as const;
 

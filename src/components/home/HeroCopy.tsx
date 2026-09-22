@@ -15,11 +15,11 @@ export default function HeroCopy() {
     <Box
       sx={{
         px: { xs: 2.5, sm: 4, md: 7, xl: 10 },
-        pt: { xs: 5, md: 8 },
-        pb: { xs: 3.5, md: 6 },
+        pt: { xs: 2, md: 3 },
+        pb: { xs: 2.5, md: 4 },
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "flex-start",
       }}
     >
       <Typography
@@ -73,6 +73,21 @@ export default function HeroCopy() {
         </Button>
       </Stack>
       <HeroFeatures />
+      <Button
+        variant="contained"
+        href="/products?page=1&brandId=all&catId=All"
+        sx={{
+          mt: 2.8,
+          py: 1.55,
+          width: "100%",
+          maxWidth: 520,
+          letterSpacing: "0.14em",
+          fontSize: 15,
+          fontWeight: 800,
+        }}
+      >
+        SHOP PRODUCTS
+      </Button>
     </Box>
   );
 }

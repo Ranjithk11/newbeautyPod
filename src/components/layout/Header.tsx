@@ -41,8 +41,8 @@ export default function Header() {
           <Link href="/#home" aria-label="BeautyPod home" sx={{ display: "flex", lineHeight: 0 }}>
             <Box
               sx={{
-                width: { xs: 196, md: 220, lg: 268 },
-                height: { xs: 58, md: 64, lg: 74 },
+                width: { xs: 176, md: 188, lg: 220 },
+                height: { xs: 52, md: 56, lg: 64 },
                 flexShrink: 0,
                 lineHeight: 0,
                 overflow: "hidden",

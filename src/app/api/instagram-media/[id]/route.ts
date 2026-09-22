@@ -21,7 +21,7 @@ function isAllowedMediaUrl(url: string) {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
   const token = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
@@ -34,6 +34,7 @@ export async function GET(
     return NextResponse.json({ error: "Invalid media id" }, { status: 400 });
   }
 
+  const kind = new URL(request.url).searchParams.get("kind");
   const graphUrl =
     `https://graph.instagram.com/${GRAPH_VERSION}/${id}` +
     `?fields=thumbnail_url,media_url,media_type&access_token=${encodeURIComponent(token)}`;
@@ -42,6 +43,7 @@ export async function GET(
   const json: {
     thumbnail_url?: string;
     media_url?: string;
+    media_type?: string;
     error?: { message?: string };
   } = await graphRes.json();
 
@@ -52,9 +54,19 @@ export async function GET(
     );
   }
 
-  const source = json.thumbnail_url || json.media_url;
+  const source =
+    kind === "video"
+      ? json.media_url
+      : json.thumbnail_url || json.media_url;
   if (!source || !isAllowedMediaUrl(source)) {
-    return NextResponse.json({ error: "No thumbnail" }, { status: 404 });
+    return NextResponse.json(
+      { error: kind === "video" ? "No video" : "No thumbnail" },
+      { status: 404 },
+    );
+  }
+
+  if (kind === "video") {
+    return NextResponse.redirect(source, 302);
   }
 
   const mediaRes = await fetch(source, { cache: "no-store" });

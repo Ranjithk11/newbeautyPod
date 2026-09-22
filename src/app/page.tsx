@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import SiteShell from "@/components/layout/SiteShell";
 import Hero from "@/components/home/Hero";
+import ShopProductsBanner from "@/components/home/ShopProductsBanner";
 import HowItWorks from "@/components/home/HowItWorks";
 import BrandPartners from "@/components/home/BrandPartners";
 import Locations from "@/components/home/Locations";
@@ -17,6 +18,7 @@ export default function HomePage() {
     <SiteShell>
       <Box component="main">
         <Hero />
+        <ShopProductsBanner />
         <HowItWorks />
         <BrandPartners />
         <Locations />
